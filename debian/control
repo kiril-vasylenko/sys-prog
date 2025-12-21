@@ -1,0 +1,13 @@
+Source: calc-files
+Section: utils
+Priority: optional
+Maintainer: Kiril Vasylenko <vasylenko.k123@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://github.com/kiril-vasylenko/sys-prog
+
+Package: calc-files
+Architecture: all
+Depends: bash, findutils, coreutils, ${misc:Depends}
+Description: Script to calculate files in the /etc directory
+ This package contains a simple script that calculates the number of files in the /etc directory.
