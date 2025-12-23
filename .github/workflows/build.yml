@@ -1,0 +1,68 @@
+name: Build RPM and DEB Packages
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - uses: actions/checkout@v4
+    
+      - name: Install debian dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debhelper devscripts build-essential
+
+      - name: Build DEB Package
+        run: |
+          chmod +x debian/rules
+          dpkg-buildpackage -us -uc -b
+          mv ../*.deb .
+          ls -l *.deb
+        
+      - name: Upload DEB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: "*.deb"
+        
+  build-rpm:
+    runs-on: ubuntu-22.04
+    container: fedora:41
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          dnf install -y rpm-build rpmdevtools tar
+          
+      - name: Create Source Tarball
+        run: |
+          rpmdev-setuptree
+          
+          mkdir -p calc_files-1.0
+          cp calc_files.sh calc_files-1.0/
+          
+          tar -czvf ~/rpmbuild/SOURCES/calc_files-1.0.tar.gz calc_files-1.0
+
+      - name: Build RPM Package
+        run: |
+          cp rpm/calc_files.spec ~/rpmbuild/SPECS/
+          
+          rpmbuild -bb ~/rpmbuild/SPECS/calc_files.spec
+          
+          cp ~/rpmbuild/RPMS/noarch/*.rpm .
+          ls -l *.rpm
+
+      - name: Upload RPM
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-package
+          path: "*.rpm"
