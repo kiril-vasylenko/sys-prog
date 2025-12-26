@@ -24,3 +24,14 @@ This repository contains practical implementations of system programming tasks, 
 ```bash
 chmod +x calc_files.sh
 sudo ./calc_files.sh
+```
+
+### 2. Build Jenkins Environment
+To deploy the local CI/CD infrastructure:
+```bash
+cd docker
+docker-compose up -d --build
+```
+
+## 👤 Author
+Kiril Vasylenko
