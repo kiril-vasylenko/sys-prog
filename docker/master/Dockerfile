@@ -18,4 +18,5 @@ RUN jenkins-plugin-cli --plugins \
     git \
     workflow-aggregator \
     docker-workflow \
-    blueocean
+    blueocean \
+    ws-cleanup

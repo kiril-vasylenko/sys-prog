@@ -1,6 +1,7 @@
 services:
   jenkins-master:
     build: ./master
+    user: root
     container_name: jenkins-master
     ports:
       - "8080:8080"
@@ -15,6 +16,7 @@ services:
 
   jenkins-agent:
     build: ./agent
+    user: root
     container_name: jenkins-agent
     depends_on:
       - jenkins-master
