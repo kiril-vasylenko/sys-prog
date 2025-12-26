@@ -70,7 +70,7 @@ pipeline {
         stage('Test RPM Installation') {
             agent {
                 docker {
-                    image 'oraclelinux:8'
+                    image 'fedora:41'
                     args '-u root'
                 }
             }
