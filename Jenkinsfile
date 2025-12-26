@@ -76,6 +76,7 @@ pipeline {
             }
             steps {
                 sh '''
+                dnf install -y which
                 rpm -ivh ${RPM_PACKAGE_NAME}-*.rpm
                 which calc_files
                 rpm -e ${RPM_PACKAGE_NAME}
